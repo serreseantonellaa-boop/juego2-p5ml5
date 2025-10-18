@@ -21,7 +21,7 @@ let posXpo;
 let posYpo;
 let contadorPoop = 0;
 
-let puntaje;
+let puntaje = 0; 
 
 // fuente
 let fuente;
@@ -33,11 +33,11 @@ let panchos = [];
 let hamburguesasArr = [];
 
 function preload(){
-  faceMesh = ml5.faceMesh(); // modelo FaceMesh (ml5 v1.x)
-  panchito   = loadImage('assets/images/panchito.png');
-  hamburguesa= loadImage('assets/images/hamburguesa.png');
-  poop       = loadImage('assets/images/poop.png');
-  fuente     = loadFont("assets/ARCADE_N.TTF");
+  faceMesh    = ml5.faceMesh(); // modelo FaceMesh (ml5 v1.x)
+  panchito    = loadImage('assets/images/panchito.png');
+  hamburguesa = loadImage('assets/images/hamburguesa.png');
+  poop        = loadImage('assets/images/poop.png');
+  fuente      = loadFont("assets/ARCADE_N.TTF");
 }
 
 function setup(){
@@ -50,18 +50,15 @@ function setup(){
   noFill();
   strokeWeight(3);
 
-  // inicializo posiciones
-  posYp = random(height);
-  posXh = width;
-  posYh = random(height);
+  // poop
   posXpo = 0;
   posYpo = random(height);
 
-  //panchos saliendo por izquierda, espaciados
+  // 3 panchos por izquierda, espaciados
   for (let i = 0; i < 3; i++) {
     panchos.push({ x: -220 * i, y: random(height) });
   }
-  //hamburguesas saliendo por derecha
+  // 3 hamburguesas por derecha, espaciadas
   for (let i = 0; i < 3; i++) {
     hamburguesasArr.push({ x: width + 220 * i, y: random(height) });
   }
@@ -109,6 +106,7 @@ function draw(){
 
     if (colisionComidaBoca(p.x, p.y, "pancho")) {
       panchitoPuntos++;
+      puntaje++;             
       p.x = 0;
       p.y = random(height);
       velocidad += 0.2;
@@ -120,7 +118,7 @@ function draw(){
     }
   }
 
-  // hamburguesas
+  // hamburguesa
   for (let i = 0; i < hamburguesasArr.length; i++) {
     const h = hamburguesasArr[i];
     image(hamburguesa, h.x, h.y, 70, 70);
@@ -128,6 +126,7 @@ function draw(){
 
     if (colisionComidaBoca(h.x, h.y, "hamburguesa")) {
       hamburguesaPuntos++;
+      puntaje++;              
       h.x = width;
       h.y = random(height);
       velocidad += 0.2;
@@ -147,13 +146,12 @@ function draw(){
   }
   if (colisionComidaBoca(posXpo, posYpo, "poop")) {
     contadorPoop++;
+    puntaje = max(0, puntaje - 1);  //resta 1, sin ir por debajo de 0
     posYpo = 0;
     posXpo = random(50, width - 70);
   }
 
-  // puntaje
-  puntaje = hamburguesaPuntos + panchitoPuntos - contadorPoop;
-
+  
   mostrarPuntos();
 }
 
@@ -174,9 +172,7 @@ function colisionComidaBoca(comidaX, comidaY, tipoComida) {
   if (tipoComida === "hamburguesa") {
     umbralColision = 60;
   }
-  // si querés ajustar el poop:
-  // else if (tipoComida === "poop") { umbralColision = 55; }
-
+  
   return (distancia < umbralColision && distBoca > umbralAperturaBoca);
 }
 
