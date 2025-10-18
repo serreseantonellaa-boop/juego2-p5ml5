@@ -1,5 +1,8 @@
 let faceMesh, video, faces = [];
 
+let panchos = [];
+let hamburguesasArr = [];
+
 let velocidad = 1;
 // distancia de la boca
 let distBoca;
@@ -23,21 +26,27 @@ let contadorPoop = 0;
 
 let puntaje = 0; 
 
+//sonidos
+let crunchy;
+let arcada;
+let ambiente;
+
 // fuente
 let fuente;
 
 // Variables para la posición de la boca
 let bocaX, bocaY;
 
-let panchos = [];
-let hamburguesasArr = [];
 
 function preload(){
-  faceMesh    = ml5.faceMesh(); // modelo FaceMesh (ml5 v1.x)
-  panchito    = loadImage('assets/images/panchito.png');
+  faceMesh = ml5.faceMesh(); // modelo FaceMesh (ml5 v1.x)
+  panchito = loadImage('assets/images/panchito.png');
   hamburguesa = loadImage('assets/images/hamburguesa.png');
-  poop        = loadImage('assets/images/poop.png');
-  fuente      = loadFont("assets/ARCADE_N.TTF");
+  poop = loadImage('assets/images/poop.png');
+  fuente = loadFont("assets/ARCADE_N.TTF");
+  crunchy = loadSound('assets/sound/crunchy.mp3');
+  arcada =  loadSound('assets/sound/arcada.mp3');
+  ambiente = loadSound('assets/sound/ambiente2.mp3')
 }
 
 function setup(){
@@ -66,6 +75,8 @@ function setup(){
   textAlign(CENTER);
   textFont(fuente);
   rectMode(CENTER);
+
+  ambiente.play()
 }
 
 function draw(){
@@ -110,6 +121,8 @@ function draw(){
       p.x = 0;
       p.y = random(height);
       velocidad += 0.2;
+      crunchy.play()
+      arcada.stop()
     }
     if (p.x > width) {
       p.x = 0;
@@ -130,6 +143,8 @@ function draw(){
       h.x = width;
       h.y = random(height);
       velocidad += 0.2;
+      crunchy.play()
+      arcada.stop()
     }
     if (h.x < 0) {
       h.x = width;
@@ -149,6 +164,9 @@ function draw(){
     puntaje = max(0, puntaje - 1);  //resta 1, sin ir por debajo de 0
     posYpo = 0;
     posXpo = random(50, width - 70);
+    velocidad ++
+    arcada.play()
+    crunchy.stop()
   }
 
   
