@@ -30,6 +30,8 @@ let puntaje = 0;
 let crunchy;
 let arcada;
 let ambiente;
+let looseSound;
+let winSound;
 
 // fuente
 let fuente;
@@ -49,6 +51,8 @@ function preload(){
   crunchy = loadSound('assets/sound/crunchy.mp3');
   arcada =  loadSound('assets/sound/arcada.mp3');
   ambiente = loadSound('assets/sound/ambiente2.mp3')
+  winSound =  loadSound('assets/sound/win2.mp3')
+  looseSound = loadSound('assets/sound/loose.mp3')
 }
 
 function setup(){
@@ -179,6 +183,7 @@ let buenas = panchitoPuntos + hamburguesaPuntos;
 if (!mostrarwin && !mostrarlose) {
   if (buenas >= 20) {
     mostrarwin = true;
+    winSound.play()
     puntaje = 0;
     panchitoPuntos = 0;         
     hamburguesaPuntos = 0;     
@@ -186,6 +191,7 @@ if (!mostrarwin && !mostrarlose) {
     velocidad = 1;              
   } else if (contadorPoop > 5) {
     mostrarlose = true;
+    looseSound.play()
     puntaje = 0;
     panchitoPuntos = 0;         
     hamburguesaPuntos = 0;   
