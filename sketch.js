@@ -82,7 +82,7 @@ function setup(){
   textFont(fuente);
   rectMode(CENTER);
 
-  //ambiente.play()
+  ambiente.play()
 }
 
 function draw(){
