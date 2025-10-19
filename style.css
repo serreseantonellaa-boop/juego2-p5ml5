@@ -5,8 +5,9 @@ html, body {
 body {
   display: grid;          
   place-items: center;    /* centro horizontal + vertical */
-  background: #e185c7;  
+  background: #000000;  
   color: rgb(241, 223, 61);     
+  font-family: arcade;
 }
 
 @font-face{
@@ -17,14 +18,47 @@ body {
   font-display: swap;
 }
 
-h1{
+#section1{
+  width: 60%;
+  text-align: center;
+  border: solid 5px rgb(241, 223, 61);
+  padding: 5%;
+  border-radius: 2%;
+  border-style:dashed;
+}
+
+.mb{
+  margin-bottom: 6%;
+}
+
+button{
+  background-color: rgb(226, 43, 171);
+  padding: 1%;
+  border-radius: 10%;
+  border: solid 2px rgb(241, 223, 61);
+  color:rgb(241, 223, 61) ;
+  font-weight: bold;
   font-family: arcade;
+}
+
+
+h1{
   font-size: 30px;
 }
 
-canvas {
-   
-  border-radius: 5%;
-  border: rgb(241, 223, 61) solid 15px;
+canvas { 
+  border: solid 5px rgb(241, 223, 61);
+  border-radius: 2%;
+  border-style:dashed;
   display: block;     
+}
+
+p{
+  line-height: 2.5;
+  font-size: small;
+}
+
+a{
+  color: rgb(241, 223, 61);
+  text-decoration: none;
 }

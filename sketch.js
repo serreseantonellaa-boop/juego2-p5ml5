@@ -37,6 +37,8 @@ let fuente;
 // Variables para la posición de la boca
 let bocaX, bocaY;
 
+let mostrarlose = false;
+let mostrarwin = false;
 
 function preload(){
   faceMesh = ml5.faceMesh(); // modelo FaceMesh (ml5 v1.x)
@@ -76,7 +78,7 @@ function setup(){
   textFont(fuente);
   rectMode(CENTER);
 
-  ambiente.play()
+  //ambiente.play()
 }
 
 function draw(){
@@ -123,6 +125,7 @@ function draw(){
       velocidad += 0.2;
       crunchy.play()
       arcada.stop()
+      if (puntaje > 0) { mostrarlose = false; mostrarwin = false; }
     }
     if (p.x > width) {
       p.x = 0;
@@ -145,6 +148,7 @@ function draw(){
       velocidad += 0.2;
       crunchy.play()
       arcada.stop()
+      if (puntaje > 0) { mostrarlose = false; mostrarwin = false; }
     }
     if (h.x < 0) {
       h.x = width;
@@ -161,7 +165,7 @@ function draw(){
   }
   if (colisionComidaBoca(posXpo, posYpo, "poop")) {
     contadorPoop++;
-    puntaje = max(0, puntaje - 1);  //resta 1, sin ir por debajo de 0
+    puntaje = max(0, puntaje - 1);  
     posYpo = 0;
     posXpo = random(50, width - 70);
     velocidad ++
@@ -169,8 +173,48 @@ function draw(){
     crunchy.stop()
   }
 
-  
   mostrarPuntos();
+
+let buenas = panchitoPuntos + hamburguesaPuntos;
+if (!mostrarwin && !mostrarlose) {
+  if (buenas >= 20) {
+    mostrarwin = true;
+    puntaje = 0;
+    panchitoPuntos = 0;         
+    hamburguesaPuntos = 0;     
+    contadorPoop = 0;         
+    velocidad = 1;              
+  } else if (contadorPoop > 5) {
+    mostrarlose = true;
+    puntaje = 0;
+    panchitoPuntos = 0;         
+    hamburguesaPuntos = 0;   
+    contadorPoop = 0;           
+    velocidad = 1;         
+  }
+}
+
+  if (mostrarlose) {
+    push();
+    noStroke();
+    fill("yellow");
+    textAlign(CENTER, CENTER);
+    textFont(fuente);
+    textSize(50);
+    text("you loose", width / 2, height / 2);
+    pop();
+  }
+
+  if (mostrarwin) {
+    push();
+    noStroke();
+    fill("yellow");
+    textAlign(CENTER, CENTER);
+    textFont(fuente);
+    textSize(50);
+    text("you win", width / 2, height / 2);
+    pop();
+  }
 }
 
 function colisionComidaBoca(comidaX, comidaY, tipoComida) {
@@ -210,12 +254,14 @@ function mostrarPuntos() {
 
   push();
   image(hamburguesa, 20, 70, 25, 25);
-  image(panchito,   18, 100, 30, 30);
+  image(panchito, 18, 90, 30, 30);
+  image(poop, 20, 115, 25,25);
   noStroke();
   textSize(12);
   fill('yellow');
   text(' X ' + hamburguesaPuntos, 65,  90);
-  text(' X ' + panchitoPuntos,    65, 120);
+  text(' X ' + panchitoPuntos, 65, 110);
+  text(' X ' + contadorPoop, 65, 135);
   pop();
 }
 
